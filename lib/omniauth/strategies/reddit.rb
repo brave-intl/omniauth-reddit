@@ -28,6 +28,10 @@ module OmniAuth
         @raw_info ||= access_token.get('/api/v1/me').parsed || {}
       end
 
+      def callback_url
+        options[:redirect_uri] || (full_host + script_name + callback_path)
+      end
+
       def build_access_token
         options.token_params.merge!(:headers => {'Authorization' => basic_auth_header })
         super
